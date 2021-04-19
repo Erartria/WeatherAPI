@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
         resp = weatherInfo;
     }
     res.status(resp.status);
-    res.send(resp.message);
+    res.send(JSON.stringify(resp));
 });
 
 router.delete("/", async (req, res) => {
@@ -51,7 +51,7 @@ router.delete("/", async (req, res) => {
         resp = weatherInfo;
     }
     res.status(resp.status);
-    res.send(resp.message);
+    res.send(JSON.stringify(resp));
 });
 
 module.exports = router
