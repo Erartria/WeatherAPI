@@ -10,7 +10,8 @@ const DAO = require("./js/DAO");
 const dao = new DAO();
 const app = express();
 
-app.use([bodyParser.json(), cors()])
+app.use(bodyParser.json());
+app.use(cors());
 app.options('*', cors());
 
 async function start() {
