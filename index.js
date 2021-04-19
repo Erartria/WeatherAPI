@@ -11,6 +11,7 @@ const dao = new DAO();
 const app = express();
 
 app.use([bodyParser.json(), cors()])
+app.options('*', cors());
 
 async function start() {
     try{
