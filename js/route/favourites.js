@@ -28,7 +28,6 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     await dao.connect();
     let weatherInfo = await api.requestCity(req.body.name)
-    console.log('POST ' + weatherInfo)
     let resp;
     try {
         let daoInfo = weatherInfo.message.toMongooseDaoModel();
@@ -37,7 +36,7 @@ router.post("/", async (req, res) => {
         resp = weatherInfo;
     }
     res.status(resp.status);
-    res.send(JSON.stringify(resp));
+    res.send(resp.message);
 });
 
 router.delete("/", async (req, res) => {
@@ -51,7 +50,7 @@ router.delete("/", async (req, res) => {
         resp = weatherInfo;
     }
     res.status(resp.status);
-    res.send(JSON.stringify(resp));
+    res.send(resp.message);
 });
 
 module.exports = router

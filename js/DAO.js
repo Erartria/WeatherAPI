@@ -33,7 +33,6 @@ class DAO {
     }
 
     async add(cityAndCoords) {
-        console.log(cityAndCoords);
         if (await this.notAtDB(cityAndCoords.coordinates)) {
             await this.collection.insertOne(cityAndCoords);
             return responseF(200, `${JSON.stringify(cityAndCoords)}\nhas been added`)
