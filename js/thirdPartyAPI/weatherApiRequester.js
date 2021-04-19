@@ -43,6 +43,7 @@ class WeatherApiRequester {
     }
 
     async requestCity(city) {
+        console.log(city)
         let response = await fetch(
             `${this.APIurl}?appid=${this.APIkey}&lang=${this.APIlang}&q=${encodeURIComponent(city)}&units=${this.APIunits}`
         )
