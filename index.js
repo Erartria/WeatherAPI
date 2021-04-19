@@ -10,11 +10,11 @@ const DAO = require("./js/DAO");
 const dao = new DAO();
 const app = express();
 
-app.use([bodyParser.json()])
+app.use([bodyParser.json(), cors()])
 
 async function start() {
     try{
-        let port = process.env.APP_PORT || 4000;
+        let port = process.env.PORT || 3000;
         await dao.connect();
 
         app.listen(port, () => {
