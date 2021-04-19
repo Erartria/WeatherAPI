@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     await dao.connect();
     let weatherInfo = await api.requestCity(req.body.name)
-    console.log(weatherInfo)
+    console.log('POST ' + weatherInfo)
     let resp;
     try {
         let daoInfo = weatherInfo.message.toMongooseDaoModel();
