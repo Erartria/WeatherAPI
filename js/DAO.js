@@ -58,10 +58,22 @@ class DAO {
         let del = await this.findByCoords(coords);
         if (del === null) {
             console.log(chalk.red('DAO DIDN\'T_IN_DB', JSON.stringify(coords)))
-            return responseF(404, del, 'Didn\'t exist at DB')
+            return responseF(404, coords, 'Didn\'t exist at DB')
         }
         await this.collection.deleteOne(del)
         console.log(chalk.green('DAO DELETED', JSON.stringify(coords)))
+        return responseF(200, del, 'Deleted')
+    }
+
+    async deleteByName(name) {
+        let del = await this.findByName(name);
+        console.log(del)
+        if (del === null) {
+            console.log(chalk.red('DAO DIDN\'T_IN_DB', name))
+            return responseF(404, name, 'Didn\'t exist at DB')
+        }
+        await this.collection.deleteOne(del)
+        console.log(chalk.green('DAO DELETED', name))
         return responseF(200, del, 'Deleted')
     }
 }

@@ -45,7 +45,7 @@ router.delete("/", async (req, res) => {
     let resp;
     try {
         let daoInfo = weatherInfo.message.toMongooseDaoModel();
-        resp = await dao.deleteByCoords(daoInfo.coordinates);
+        resp = await dao.deleteByName(daoInfo.name);
     } catch (er) {
         resp = weatherInfo;
         console.log(er)
