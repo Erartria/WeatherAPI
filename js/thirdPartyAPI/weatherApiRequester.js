@@ -51,7 +51,7 @@ class WeatherApiRequester {
 
     async requestCity(city) {
         let response = await fetch(
-            `${this.APIurl}?appid=${this.APIkey}&lang=${this.APIlang}&q=${encodeURIComponent(city)}&units=${this.APIunits}`
+            `${this.APIurl}?appid=${this.APIkey}&lang=${this.APIlang}&q=${encodeURIComponent(city.trim())}&units=${this.APIunits}`
         )
         console.log(chalk.bgGray('API_REQUEST_CITY: ', JSON.stringify(city)))
         return this.problemHandler(response)
