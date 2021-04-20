@@ -35,9 +35,12 @@ class DAO {
     async add(cityAndCoords) {
         if (await this.notAtDB(cityAndCoords.coordinates)) {
             await this.collection.insertOne(cityAndCoords);
-            return responseF(200, `${JSON.stringify(cityAndCoords)}\nhas been added`)
-        } else
-            return responseF(208, 'Already exists')
+            console.log(chalk.green('DAO ADD: ', JSON.stringify(cityAndCoords)))
+            return responseF(200, cityAndCoords, `has been added`);
+        } else {
+            console.log(chalk.red('DAO ALREADY_EXIST ', JSON.stringify(cityAndCoords)))
+            return responseF(208, cityAndCoords, 'Already exists')
+        }
     }
 
     async findByName(cityName) {
@@ -47,23 +50,27 @@ class DAO {
 
     async findByCoords(coords) {
         let res = await this.collection.findOne({coordinates: coords});
+        console.log(chalk.bgGray('DAO FIND_BY_COORDS: ', JSON.stringify(coords)))
         return res;
     }
 
     async deleteByCoords(coords) {
         let del = await this.findByCoords(coords);
         if (del === null) {
-            return responseF(404, 'City with this coords didn\'t exist at DB')
+            console.log(chalk.red('DAO DIDN\'T_IN_DB', JSON.stringify(coords)))
+            return responseF(404, del, 'Didn\'t exist at DB')
         }
         await this.collection.deleteOne(del)
-        return responseF(200, 'Deleted')
+        console.log(chalk.green('DAO DELETED', JSON.stringify(coords)))
+        return responseF(200, del, 'Deleted')
     }
 }
 
-function responseF(status, message) {
+function responseF(status, model, description) {
     return {
         status: status,
-        message: message
+        model: model,
+        message: description
     }
 }
 

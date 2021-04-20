@@ -48,6 +48,7 @@ router.delete("/", async (req, res) => {
         resp = await dao.deleteByCoords(daoInfo.coordinates);
     } catch (er) {
         resp = weatherInfo;
+        console.log(er)
     }
     res.status(resp.status);
     res.send(resp);

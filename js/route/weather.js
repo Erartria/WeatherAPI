@@ -9,14 +9,14 @@ router.get("/city", async (req, res) => {
     let {q} = req.query
     let resp = await api.requestCity(q);
     res.status(resp.status);
-    res.send(resp.message);
+    res.send(resp);
 })
 
 router.get("/coordinates", async (req, res) => {
     let {lat, lon} = req.query
     let resp = await api.requestLocation({lat: lat, lon: lon})
     res.status(resp.status);
-    res.send(resp.message);
+    res.send(resp);
 })
 
 module.exports = router

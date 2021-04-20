@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const cityModel = require('./thirdPartyModel')
+const chalk = require('chalk')
 
 function statusAndMessage(status, message) {
     return {
@@ -26,12 +27,17 @@ class WeatherApiRequester {
     }
 
     async problemHandler(response) {
+        let r = await response.json();
+
         if (response.status === 200) {
-            return statusAndMessage(200, new cityModel(await response.json()));
+            console.log(chalk.green(response.status, ' OK'))
+            return statusAndMessage(200, new cityModel(r));
         }
         if (this.badRequestStatuses.has(response.status)) {
+            console.log(chalk.red(response.status, ' MY EXCEPTION ', this.badRequestStatuses.get(response.status)))
             return statusAndMessage(response.status, this.badRequestStatuses.get(response.status));
         }
+        console.log(chalk.redBright(response.status, ' API ERROR'))
         return statusAndMessage(response.status, response.message)
     }
 
@@ -39,6 +45,7 @@ class WeatherApiRequester {
         let response = await fetch(
             `${this.APIurl}?appid=${this.APIkey}&lang=${this.APIlang}&lat=${location.lat}&lon=${location.lon}&units=${this.APIunits}`
         )
+        console.log(chalk.bgGray('API_REQUEST_LOCATION: ', JSON.stringify(location)))
         return this.problemHandler(response)
     }
 
@@ -46,7 +53,7 @@ class WeatherApiRequester {
         let response = await fetch(
             `${this.APIurl}?appid=${this.APIkey}&lang=${this.APIlang}&q=${encodeURIComponent(city)}&units=${this.APIunits}`
         )
-
+        console.log(chalk.bgGray('API_REQUEST_CITY: ', JSON.stringify(city)))
         return this.problemHandler(response)
     }
 }
